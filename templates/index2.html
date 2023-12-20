@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" 
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+<body>
+    <div class="mb-3">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="formGroupExampleInput" class="form-label">Example label</label>
+            <input type="file" class="form-control" id="formGroupExampleInput" placeholder="Select your file" name="file">
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Enter your password</label>
+            <input type="text" class="form-control" name="password" id="formGroupExampleInput2" placeholder="Password">
+        </div>
+	<div class="mb-3">
+		<input type="submit" value="Submit">
+	</div>
+        </form>
+    
+     <div>
+        <div style="margin: 100; align-content: center;">
+            <a href="/download">download your encrypted file here</a>
+        </div>
+	<div class="mb-3">
+    <form action="/decrypt" method="POST" enctype="multipart/form-data">
+        <label for="formGroupExampleInput" class="form-label">Enter your encrypted file</label>
+        <input type="file" name="encrypted" placeholder="Enter your file">
+        <label for="formGroupExampleInput" class="form-label">Enter your private key file</label>
+        <input type="file" name="private">
+        <label for="formGroupExampleInput" class="form-label">Enter your passphrase</label>
+        <input type="text" name="password">
+        <input type="submit" value="Upload">
+    </form>
+    <div>
+	    <a href="/decrypt/download">download your decrypted file here </a>
+    </div>
+</div>
+    <!--<form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+</div> -->
+</body>
+</html>
