@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="mb-3">
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <form action="/encrypt_file" method="post" enctype="multipart/form-data">
             <label for="formGroupExampleInput" class="form-label">Example label</label>
             <input type="file" class="form-control" id="formGroupExampleInput" placeholder="Select your file" name="file">
         </div>
@@ -26,7 +26,7 @@
             <a href="/download">download your encrypted file here</a>
         </div>
 	<div class="mb-3">
-    <form action="/decrypt" method="POST" enctype="multipart/form-data">
+    <form action="/decrypt_file" method="POST" enctype="multipart/form-data">
         <label for="formGroupExampleInput" class="form-label">Enter your encrypted file</label>
         <input type="file" name="encrypted" placeholder="Enter your file">
         <label for="formGroupExampleInput" class="form-label">Enter your passphrase</label>

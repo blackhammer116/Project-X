@@ -5,38 +5,21 @@ encrypt and decrypt the data of the user.
 
 Below are some libraries that will be used in this module
 """
-from flask import Flask, request, make_response, render_template, send_file
+from flask import Flask, request, make_response, render_template, send_file, jsonify
+#from flask_cors import CORS
 import os
 import zipfile
 import subprocess
 import codecs
 
 app = Flask(__name__)
+#CORS(app)
 
-@app.route('/')
-def index():
-    """
-    Defining a function to render the landing page
-    """
-    return render_template('index2.html')
-
-@app.route('/process', methods=['POST'])
-def process():
-    """
-    Route to test the flask app
-    """
-    if request.method == 'POST':
-        user_name = request.form['fname']
-        return render_template('results.html', user_name=user_name)
-    
-    return render_template('error.html')
-
-
-@app.route('/upload', methods=['POST'])
+@app.route('/encrypt_file', methods=['POST'])
 def encrypt():
     """
-    This function will handle the route '/upload' and
-    later encrypt the file uploaded by the user
+    #This function will handle the route '/upload' and
+    #later encrypt the file uploaded by the user
     """
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -72,15 +55,14 @@ def encrypt():
        
     return render_template('error.html')
 
-
-@app.route('/decrypt', methods=['POST'])
+@app.route('/decrypt_file', methods=['POST'])
 def decrypt_file():
     """
     This route decrypts the encrypted file uploaded by the user
     """
     if request.method=='POST':
         
-        #if 'file' not in request.files['encrypted']:
+        #if 'file' not in request.files:
          #   return "No files"
 
         encrypted_file = request.files['encrypted']
@@ -112,6 +94,73 @@ def decrypt_file():
 
     return render_template("error.html")
 
+
+
+@app.route('/e_text', methods=['POST'])
+def encrypt_text():
+    """
+    Route to encrypt text
+    """
+    if request.method == 'POST':
+        text = request.form['text'].encode('utf-8')
+        password = request.form['password']
+
+        salt = b'secure_salt'
+        iterations = 100000  
+
+
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,  
+            salt=salt,
+            iterations=iterations,
+            backend=default_backend()
+        )
+
+        key = base64.urlsafe_b64encode(kdf.derive(password.encode())) 
+        
+        cypher_suit = Fernet(key)
+
+        cypher_text = cypher_suit.encrypt(text).decode('utf-8')
+
+        data = {'key': cypher_text}
+        return jsonify(data)
+        #return render_template('index3.html', key=key, result=cypher_text)
+    return "ERROr"
+
+@app.route('/d_text', methods=['POST'])
+def decrypt_text():
+    """
+    Route to decrypt text
+    """
+    if request.method=='POST':
+        text = request.form['d_text'].encode('utf-8')
+        password = request.form['password']
+
+        salt = b'secure_salt'  
+        iterations = 100000  
+
+
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,  
+            salt=salt,
+            iterations=iterations,
+            backend=default_backend()
+        )
+
+        key = base64.urlsafe_b64encode(kdf.derive(password.encode())) 
+        try:
+            cipher_suite = Fernet(key)
+
+            normal_text = cipher_suite.decrypt(text).decode('utf-8')
+
+            data = {'key': normal_text}
+            return jsonify(data)
+            #return render_template('index3.html', result2=normal_text)
+        except (ValueError, KeyError):
+            return 'Error: Invalid key'
+    return 'Error'
 
 if __name__ == '__main__':
     app.run(debug=True)

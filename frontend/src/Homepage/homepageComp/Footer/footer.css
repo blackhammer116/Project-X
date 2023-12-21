@@ -1,0 +1,29 @@
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  color: #f44336;
+}
+.footer-container ul li {
+  display: inline-block;
+  padding: 1px 15px;
+}
+.footer-strip {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+.footer-container h1 {
+  margin-bottom: 20px;
+  font-weight: lighter;
+}
+
+.footer-container a {
+  color: #f44336;
+}
+/* .copyright {
+  font-size: small;
+} */
