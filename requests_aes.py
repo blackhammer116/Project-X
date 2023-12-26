@@ -6,14 +6,14 @@ encrypt and decrypt the data of the user.
 Below are some libraries that will be used in this module
 """
 from flask import Flask, request, make_response, render_template, send_file, jsonify
-#from flask_cors import CORS
+from flask_cors import CORS
 import os
 import zipfile
 import subprocess
 import codecs
 
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 
 @app.route('/encrypt_file', methods=['POST'])
 def encrypt():
