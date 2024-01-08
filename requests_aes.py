@@ -10,6 +10,7 @@ from flask_cors import CORS
 import os
 import zipfile
 import subprocess
+import requests
 import codecs
 
 app = Flask(__name__)
@@ -102,8 +103,13 @@ def encrypt_text():
     Route to encrypt text
     """
     if request.method == 'POST':
-        text = request.form['text'].encode('utf-8')
-        password = request.form['password']
+
+        response = requests.get('https://localhost:3000')
+        data=reponse.getJson(data)
+        text=data.message
+        password=data.passphrase
+        #text = request.form['text'].encode('utf-8')
+        #password = request.form['password']
 
         salt = b'secure_salt'
         iterations = 100000  
@@ -123,7 +129,7 @@ def encrypt_text():
 
         cypher_text = cypher_suit.encrypt(text).decode('utf-8')
 
-        data = {'key': cypher_text}
+        data = {'cypher_text': cypher_text}
         return jsonify(data)
         #return render_template('index3.html', key=key, result=cypher_text)
     return "ERROr"
